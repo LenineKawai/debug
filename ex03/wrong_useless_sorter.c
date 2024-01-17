@@ -15,6 +15,8 @@ char *trim_space(char *str)
             newLen ++;
 
     char *trimed_str = malloc((newLen + 1) * sizeof(char));
+    if (!trimed_str)
+        exit(0);
 
     i = 0;
 
@@ -27,29 +29,30 @@ char *trim_space(char *str)
         }
         i ++;
     }
-    trimed_str[j] = 0;
+    // trimed_str[j] = 0;
+    // free(str);
     return(trimed_str);
 }
 
 int find_smallest_ascii(char *str) 
 {
     int i = 0;
-    int j = 1;
+    int j;
     int index_of_smallest = 0;
 
     while (str && str[i])
     {
-
+        j = i + 1;
         while(str && str[j])
         {
             if (str[j] < str[i])
             {
                 index_of_smallest = j;
-                i = j;
-                j ++;
                 break;
             }
-            j ++;
+            else if (j == strlen(str) - 1)
+                return (i);
+            // j ++;
         }
         i ++;
     }
@@ -65,11 +68,13 @@ char *cut_smallest_ascii_from_string(char *strToCut, char *stringToFillWithCut, 
     int smallestAsciiOccurences = 0;
     
     while (strToCut && strToCut[++i])
-        if(smallestAsciiIndex != i && strToCut[i] == strToCut[smallestAsciiIndex])
+        if(strToCut[i] == strToCut[smallestAsciiIndex])
             smallestAsciiOccurences ++;
 
-    cutStr = malloc((strlen(strToCut) - smallestAsciiIndex + 1) * sizeof(char));
-    bzero(cutStr, strlen(strToCut) - smallestAsciiIndex + 1);
+    cutStr = malloc((strlen(strToCut) - smallestAsciiOccurences + 1) * sizeof(char));
+    if (!cutStr)
+        exit(0);
+    bzero(cutStr, strlen(strToCut));
 
     i = 0;
     while (strToCut && strToCut[i])
@@ -82,12 +87,10 @@ char *cut_smallest_ascii_from_string(char *strToCut, char *stringToFillWithCut, 
         else
         {
             cutStr[k] = strToCut[i];
-            printf("k : %d, len : %d\n", k, strlen(strToCut) - smallestAsciiIndex + 1);
             k ++;
         }
         i ++;
     }
-    // maybe remove this free
     free(strToCut);
     return(cutStr);
 }
@@ -100,7 +103,7 @@ char *arg_is_alpha_and_space(char *arg)
     {
         if (!isalpha(arg[i]) && !isspace(arg[i]))
         {
-            dprintf(2, "The string passed as an argument can only contain alphabetic characters and white spaces");
+            dprintf(2, "The string passed as an argument can only contain alphabetic characters and white spaces\n");
             exit (2);
         }
         i ++;
@@ -112,6 +115,8 @@ char *useless_sorter(char *str)
     int i = 0;
     int j = 1;
     char *sortedStr = malloc((strlen(str) + 1) * sizeof(char));
+    if (sortedStr)
+        exit(0);
     char *strCpy = strdup(str);
     int smallestAsciiIndex = 0;
     bzero(sortedStr, strlen(str) + 1);
@@ -136,9 +141,11 @@ int main (int ac, char **av)
         dprintf(2, "This program only take up to one argument, a string\n");
         exit(1);
     }
+
     arg_is_alpha_and_space(av[1]);
 
     uselessly_sorted_str = useless_sorter(av[1]);
+
     printf("here it is : %s\n", uselessly_sorted_str);
     free(uselessly_sorted_str);
     return (0);
