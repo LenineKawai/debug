@@ -94,7 +94,7 @@ char *cut_smallest_ascii_from_string(char *strToCut, char *stringToFillWithCut, 
         }
         i ++;
     }
-    free(strToCut);
+    free(strToCut); //removed
     return(cutStr);
 }
 
@@ -131,7 +131,7 @@ char *useless_sorter(char *str)
         smallestAsciiIndex = find_smallest_ascii(strCpy);
         strCpy = cut_smallest_ascii_from_string(strCpy, sortedStr,smallestAsciiIndex);
     }
-    free(strCpy);
+    free(strCpy); //removed
     return (sortedStr);
 
 }

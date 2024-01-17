@@ -29,8 +29,6 @@ char *trim_space(char *str)
         }
         i ++;
     }
-    // trimed_str[j] = 0;
-    // free(str);
     return(trimed_str);
 }
 
@@ -52,7 +50,6 @@ int find_smallest_ascii(char *str)
             }
             else if (j == strlen(str) - 1)
                 return (i);
-            // j ++;
         }
         i ++;
     }
@@ -91,7 +88,6 @@ char *cut_smallest_ascii_from_string(char *strToCut, char *stringToFillWithCut, 
         }
         i ++;
     }
-    free(strToCut);
     return(cutStr);
 }
 
@@ -127,7 +123,6 @@ char *useless_sorter(char *str)
         smallestAsciiIndex = find_smallest_ascii(strCpy);
         strCpy = cut_smallest_ascii_from_string(strCpy, sortedStr,smallestAsciiIndex);
     }
-    free(strCpy);
     return (sortedStr);
 
 }
